@@ -24,7 +24,7 @@ function classTabla(objetoPadre, nomTabla, filas, columnas, texto) {
 	//Mètode que inserta una fila
 	//numFila: A partir de quina fila s'inserta
 	//textP: text que es posará en les cel·les
-	this.insertaFila = function(numFila, textoP) {	
+	classTabla.prototype.insertaFila = function(numFila, textoP) {	
 		
 		if (this.numFilas >= 0 && numFila <= this.numFilas) {	
 			var fila = this.objTabla.insertRow(numFila); //inserta fila
@@ -42,24 +42,24 @@ function classTabla(objetoPadre, nomTabla, filas, columnas, texto) {
 			return false; //numFila és fora de rang	
 		}
 	
-	}
+	};
 	
 	//Mètode que inserta moltes file
 	//numFila: A partir de quina fila s'inserta
 	//nRep número de files a insertar
 	//textP: text que es posará en les cel·les
-	this.insertaFilas = function(numFila, nRep, textoP) {	
+	classTabla.prototype.insertaFilas = function(numFila, nRep, textoP) {	
 		
 		for (var i = 0; i < nRep; i++)	
 			this.insertaFila(numFila, textoP);
 	
-	}
+	};
 	
 	//Mètode que inserta una columna
 	//numFila: número fila on s'inserta
 	//texto: texte que es posarà en les cel·les de la fila insertada
 	//Retorna true si columna ben insertada, false en cas contrari
-	this.insertaColumna = function (numColumna, texto) {
+	classTabla.prototype.insertaColumna = function (numColumna, texto) {
 		if (numColumna >=0 && numColumna <= this.numColumnas) {	
 		
 			var celda = {}; //variable pel bucle d'inserció de cel·les
@@ -76,11 +76,11 @@ function classTabla(objetoPadre, nomTabla, filas, columnas, texto) {
 	    } else {
 			return false;	
 		}
-	}
+	};
 	
 	//Mètode que esborra la columna en numColumna
 	//numColumna: número columna on s'esborrarà
-	this.borraColumna = function (numColumna) {
+	classTabla.prototype.borraColumna = function (numColumna) {
 
 		//Comprovar que la columna a esborrar estigui enre 0 i el nombre de columnes
 		if (numColumna >= 0 && numColumna < this.numColumnas) {
@@ -92,12 +92,12 @@ function classTabla(objetoPadre, nomTabla, filas, columnas, texto) {
 		} else {
 			return false;	
 		}
-	}
+	};
 
 	//Mètode interna que esborra una cel·la
 	//és privada, tot i que això no es pot definir en JS
 	//no fer servir tota sola perquè desquadra this.numFilas i this.numColumnas
-	this._borraCelda = function (numFila, numColumna) {
+	classTabla.prototype._borraCelda = function (numFila, numColumna) {
 	
 		//Comprovar que la fila estigui enre 0 i el nombre de columnes	
 		//i que la columna estigui enre 0 i el nombre de columnes
@@ -108,11 +108,11 @@ function classTabla(objetoPadre, nomTabla, filas, columnas, texto) {
 		} else {
 			return false;	
 		}
-	}
+	};
 
 	//Mètode que esborra la fila en numFila
 	//numFila: número fila on s'esborrarà
-	this.borraFila = function (numFila) {
+	classTabla.prototype.borraFila = function (numFila) {
 
 		//Comprovar que la fila a esborrar estigui enre 0 i el nombre de files
 		//No deix esborrar capçaleres
@@ -124,23 +124,24 @@ function classTabla(objetoPadre, nomTabla, filas, columnas, texto) {
 		} else {
 			return false;	
 		}
-	}
+	};
+
 
 	//Mètode que canvia el contingut d'una cel·la
 	//numFila: número fila de la cel·la
 	//numColumna: número columna de la cel·la	
-	this.cambiaCelda = function (numFila, numColumna, texto) {
+	classTabla.prototype.cambiaCelda = function (numFila, numColumna, texto) {
 		if (this.objTabla.tBodies[0].rows[numFila].cells[numColumna].innerHTML = texto) {
 			return true;
 		} else {
 			return false;
 		}
 		
-	}
+	};
 	
 	//Mètode que canvia totes les cel·les de la taula per texto
 	//texto: text que es posarà dins les cel·les
-	this.cambiaCeldasTabla = function (texto) {
+	classTabla.prototype.cambiaCeldasTabla = function (texto) {
 	
 		for (var i = 0; i < this.numFilas; i++) {
 			for (var j = 0; j < this.numColumnas; j++) {
@@ -150,21 +151,21 @@ function classTabla(objetoPadre, nomTabla, filas, columnas, texto) {
 			}
 		}
 		return true;
-	}
-
+	};
+	//Inicialitzar l'objecte
+	
 	//Mètode que canvia el color de fons de la taula per pColor
 	//pColor: color
+	classTabla.prototype.cambiaFondo = function (pColor) {
+		this.objTabla.style.backgroundColor = pColor;		
+	};
+
+	//Inicialitzar l'objecte
 	this.objTabla.id = nomTabla;
 	
 	//insertar com a primer element del body;
 	this.objPadre.insertBefore(this.objTabla,this.objPadre.childNodes[1]);
 	//this.objPadre.appendChild(this.objTabla);//afegeix la taula al final del body
-	this.cambiaFondo = function (pColor) {
-		this.objTabla.style.backgroundColor = pColor;		
-	}
-
-	//Inicialitzar l'objecte
-	
 	//crear la taula inicial això com s'ha especificat en el constructor	
 	this.insertaFilas(0, this.numFilas, texto);
 	
